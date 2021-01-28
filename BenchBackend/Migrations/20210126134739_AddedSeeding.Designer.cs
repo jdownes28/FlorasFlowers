@@ -4,14 +4,16 @@ using BenchBackend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BenchBackend.Migrations
 {
     [DbContext(typeof(FlorasContext))]
-    partial class FlorasContextModelSnapshot : ModelSnapshot
+    [Migration("20210126134739_AddedSeeding")]
+    partial class AddedSeeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,9 +59,6 @@ namespace BenchBackend.Migrations
 
                     b.Property<int?>("CustomerId")
                         .HasColumnType("int");
-
-                    b.Property<string>("DeliveryAddress")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("OrderFulfilled")
                         .HasColumnType("datetime2");
@@ -114,10 +113,10 @@ namespace BenchBackend.Migrations
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<double>("PriceCharged")
-                        .HasColumnType("float");
-
                     b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -143,9 +142,6 @@ namespace BenchBackend.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Rating")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")

@@ -14,6 +14,8 @@ namespace BenchBackend.Models
 
         public string Content { get; set; }
 
+        public int Rating { get; set; }
+
         public Customer Customer { get; set; }
 
         public Product Product { get; set; }

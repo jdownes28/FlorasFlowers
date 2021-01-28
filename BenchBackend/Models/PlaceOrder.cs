@@ -5,18 +5,12 @@ using System.Threading.Tasks;
 
 namespace BenchBackend.Models
 {
-    public class Order
+    public class PlaceOrder
     {
-        public int Id { get; set; }
-
         public DateTime OrderPlaced { get; set; }
-
-        public DateTime? OrderFulfilled { get; set; }
-
+        public string Email { get; set; }
         public string DeliveryAddress { get; set; }
-
-        public Customer Customer { get; set; }
-
-        public ICollection<ProductOrder> ProductOrders { get; set; }
+        public int CustomerId { get; set; }
+        public List<int> ProductsOrderedId { get; set; }
     }
 }

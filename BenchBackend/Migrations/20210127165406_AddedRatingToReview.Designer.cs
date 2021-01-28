@@ -4,14 +4,16 @@ using BenchBackend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BenchBackend.Migrations
 {
     [DbContext(typeof(FlorasContext))]
-    partial class FlorasContextModelSnapshot : ModelSnapshot
+    [Migration("20210127165406_AddedRatingToReview")]
+    partial class AddedRatingToReview
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -118,6 +120,9 @@ namespace BenchBackend.Migrations
                         .HasColumnType("float");
 
                     b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
