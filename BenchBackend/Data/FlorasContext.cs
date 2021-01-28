@@ -16,6 +16,17 @@ namespace BenchBackend.Data
         public DbSet<ProductOrder> ProductOrders { get; set; }
         public DbSet<Review> Reviews { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            DateTime orderPlaced = new DateTime(2021, 01, 15);
+            DateTime orderFulfilled = new DateTime(2021, 01, 18);
+
+            modelBuilder.Entity<Order>().HasData(
+                new Order { Id = 1, OrderPlaced = orderPlaced, OrderFulfilled = orderFulfilled }
+            );
+        }
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=FlorasDB");
