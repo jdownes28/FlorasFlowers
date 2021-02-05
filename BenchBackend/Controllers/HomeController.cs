@@ -1,5 +1,6 @@
 ﻿using BenchBackend.Data;
 using BenchBackend.Models;
+using BenchBackend.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,44 +24,18 @@ namespace BenchBackend.Controllers
         }
 
         [HttpGet("/products")]
-        public List<ProjectionModel> GetBuy()
+        public async Task<List<ProjectionModel>> GetBuy()
         {
-            using FlorasContext context = new FlorasContext();
-            var products = context.Products
-                .Include(r => r.Reviews)
-                .Where(p => p.Type == "buy")
-                .Select(sel => new ProjectionModel
-                {
-                    Id = sel.Id,
-                    Name = sel.Name,
-                    Price = sel.Price,
-                    ReviewTitle = sel.Reviews.Select(r => r.Title),
-                    ReviewContent = sel.Reviews.Select(r => r.Content)
-                }).ToList();
-
+            GetAllBuyProducts getAllBuyProducts = new GetAllBuyProducts();
+            var products = await getAllBuyProducts.ExecuteAsync();
             return products;
         }
 
         [HttpGet("/products/filter")]
         public List<ProjectionModel> GetBuyFiltered([FromQuery] int MinPrice, [FromQuery] int MaxPrice)
         {
-            using FlorasContext context = new FlorasContext();
-
-            var minimum = MinPrice;
-            var maximum = MaxPrice;
-
-            var products = context.Products
-                .Include(r => r.Reviews)
-                .Where(p => p.Type == "buy")
-                .Where(p => p.Price >= minimum && p.Price <= maximum)
-                .Select(sel => new ProjectionModel
-                {
-                    Name = sel.Name,
-                    Price = sel.Price,
-                    ReviewTitle = sel.Reviews.Select(r => r.Title),
-                    ReviewContent = sel.Reviews.Select(r => r.Content),
-                    AvgRating = sel.Reviews.Select(r => r.Rating).Average()
-                }).ToList();
+            GetFilteredProducts filteredProducts = new GetFilteredProducts();
+            var products = filteredProducts.GetBuyFiltered(MinPrice, MaxPrice);
 
             return products;
         }
@@ -70,6 +45,7 @@ namespace BenchBackend.Controllers
         {
             using FlorasContext context = new FlorasContext();
             var product = context.Products.Where(p => p.Type == "sub").ToList();
+
 
             return product;
         }
