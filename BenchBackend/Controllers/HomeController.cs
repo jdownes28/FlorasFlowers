@@ -36,7 +36,6 @@ namespace BenchBackend.Controllers
         {
             GetFilteredProducts filteredProducts = new GetFilteredProducts();
             var products = filteredProducts.GetBuyFiltered(MinPrice, MaxPrice);
-
             return products;
         }
 
@@ -45,8 +44,6 @@ namespace BenchBackend.Controllers
         {
             using FlorasContext context = new FlorasContext();
             var product = context.Products.Where(p => p.Type == "sub").ToList();
-
-
             return product;
         }
     }
