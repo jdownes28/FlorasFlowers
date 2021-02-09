@@ -10,13 +10,13 @@ namespace BenchBackend.Queries
 {
     public class GetAllBuyProducts : IGetAllBuyProducts
     {
-        public async Task<List<ProjectionModel>> ExecuteAsync()
+        public async Task<List<ProductProjection>> ExecuteAsync()
         {
             using FlorasContext context = new FlorasContext();
             var products = await context.Products
                 .Include(r => r.Reviews)
                 .Where(p => p.Type == "buy")
-                .Select(sel => new ProjectionModel
+                .Select(sel => new ProductProjection
                 {
                     Id = sel.Id,
                     Name = sel.Name,

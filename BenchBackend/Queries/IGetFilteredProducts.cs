@@ -1,10 +1,11 @@
 ﻿using BenchBackend.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BenchBackend.Queries
 {
     public interface IGetFilteredProducts
     {
-        List<ProjectionModel> GetBuyFiltered(int MinPrice, int MaxPrice);
+        Task<List<ProductProjection>> GetBuyFiltered(int MinPrice, int MaxPrice);
     }
 }

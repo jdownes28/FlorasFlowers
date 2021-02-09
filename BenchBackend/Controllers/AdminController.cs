@@ -13,7 +13,7 @@ namespace BenchBackend.Controllers
     public class AdminController : ControllerBase
     {
         [HttpGet("/admin/products")]
-        public List<Product> GetAllProducts()
+        public async Task<List<Product>> GetAllProducts()
         {
             using FlorasContext context = new FlorasContext();
             var AllProducts = context.Products.ToList();
