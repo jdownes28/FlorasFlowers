@@ -1,5 +1,4 @@
 ﻿using BenchBackend.Data;
-using BenchBackend.Middleware;
 using BenchBackend.Models;
 using BenchBackend.Queries;
 using Microsoft.AspNetCore.Mvc;
