@@ -10,22 +10,22 @@ namespace BenchBackend.Queries
 {
     public class GetFilteredProducts : IGetFilteredProducts
     {
-        public List<ProjectionModel> GetBuyFiltered(int MinPrice, int MaxPrice)
+        public async Task<List<ProductProjection>> GetBuyFiltered(int MinPrice, int MaxPrice)
         {
             using FlorasContext context = new FlorasContext();
 
-            var products = context.Products
+            var products = await context.Products
                 .Include(r => r.Reviews)
                 .Where(p => p.Type == "buy")
                 .Where(p => p.Price >= MinPrice && p.Price <= MaxPrice)
-                .Select(sel => new ProjectionModel
+                .Select(sel => new ProductProjection
                 {
                     Name = sel.Name,
                     Price = sel.Price,
                     ReviewTitle = sel.Reviews.Select(r => r.Title),
                     ReviewContent = sel.Reviews.Select(r => r.Content),
                     AvgRating = sel.Reviews.Select(r => r.Rating).Average()
-                }).ToList();
+                }).ToListAsync();
 
             return products;
         }

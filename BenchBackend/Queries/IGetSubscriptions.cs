@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace BenchBackend.Queries
 {
-    public interface IGetAllBuyProducts
+    public interface IGetSubscriptions
     {
-        Task<List<ProductProjection>> ExecuteAsync();
+        Task<List<Product>> ExecuteAsync();
     }
 }

@@ -1,30 +1,28 @@
 ﻿using BenchBackend.Data;
+using BenchBackend.Middleware;
 using BenchBackend.Models;
 using BenchBackend.Queries;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace BenchBackend.Controllers
 {
     [ApiController]
-    public class HomeController : ControllerBase
+    public class ProductController : ControllerBase
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<ProductController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public ProductController(ILogger<ProductController> logger)
         {
             _logger = logger;
         }
 
         [HttpGet("/products")]
-        public async Task<List<ProjectionModel>> GetBuy()
+        public async Task<List<ProductProjection>> GetProductsAsync()
         {
             GetAllBuyProducts getAllBuyProducts = new GetAllBuyProducts();
             var products = await getAllBuyProducts.ExecuteAsync();
@@ -32,19 +30,20 @@ namespace BenchBackend.Controllers
         }
 
         [HttpGet("/products/filter")]
-        public List<ProjectionModel> GetBuyFiltered([FromQuery] int MinPrice, [FromQuery] int MaxPrice)
+        public async Task<List<ProductProjection>> GetFilteredProductsAsync([FromQuery] int MinPrice, [FromQuery] int MaxPrice)
         {
             GetFilteredProducts filteredProducts = new GetFilteredProducts();
-            var products = filteredProducts.GetBuyFiltered(MinPrice, MaxPrice);
+            var products = await filteredProducts.GetBuyFiltered(MinPrice, MaxPrice);
             return products;
         }
 
         [HttpGet("/subscriptions")]
-        public List<Product> GetProductSubs()
+        public async Task<List<Product>> GetSubscriptionsAsync()
         {
-            using FlorasContext context = new FlorasContext();
-            var product = context.Products.Where(p => p.Type == "sub").ToList();
-            return product;
+            GetSubscriptions getSubscriptions = new GetSubscriptions();
+            var subscriptions = await getSubscriptions.ExecuteAsync();
+
+            return subscriptions;
         }
     }
 }

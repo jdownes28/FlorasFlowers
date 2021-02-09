@@ -13,7 +13,7 @@ namespace BenchBackend.Controllers
     public class CheckoutController : ControllerBase
     {
         [HttpPost("/order")]
-        public bool PlaceOrder(PlaceOrder placeOrder)
+        public async Task PlaceOrder(PlaceOrder placeOrder)
         {
             using FlorasContext context = new FlorasContext();
 
@@ -23,16 +23,10 @@ namespace BenchBackend.Controllers
                 DeliveryAddress = placeOrder.DeliveryAddress,
                 Customer = context.Customers.First(cus => cus.Id == placeOrder.CustomerId),
                 OrderFulfilled = null,
+                //ProductOrders = await CreateProductOrders(placeOrder.ProductsOrderedId)
             };
 
-            ProductOrder productOrder = new ProductOrder()
-            {
-
-            };
-
-            var NewOrder = context.Orders.Add(order);
-
-            return true;
+            var NewOrder = await context.Orders.AddAsync(order);
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BenchBackend.Models
 {
-    public class ProjectionModel
+    public class ProductProjection
     {
         public int Id { get; set; }
         public string Name { get; set; }
