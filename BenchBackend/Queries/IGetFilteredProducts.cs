@@ -6,6 +6,6 @@ namespace BenchBackend.Queries
 {
     public interface IGetFilteredProducts
     {
-        Task<List<ProductProjection>> GetBuyFiltered(int MinPrice, int MaxPrice);
+        Task<List<ProductProjection>> ExecuteAsync(int MinPrice, int MaxPrice);
     }
 }

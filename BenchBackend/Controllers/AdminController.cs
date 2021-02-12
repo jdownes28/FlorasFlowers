@@ -12,14 +12,11 @@ namespace BenchBackend.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
-        [HttpGet("/admin/products")]
-        public async Task<List<Product>> GetAllProducts()
-        {
-            using FlorasContext context = new FlorasContext();
-            var AllProducts = context.Products.ToList();
-            return AllProducts;
-        }
-
+        /// <summary>
+        /// Async Post request to edit a current product
+        /// </summary>
+        /// <param name="EditedProduct">Class of params to identify product to edit</param>
+        /// <returns>Changes to product</returns>
         [HttpPost("/admin/product/edit")]
         public async Task<string> PostEditedProduct(PostEditProductParameters EditedProduct)
         {
@@ -28,7 +25,10 @@ namespace BenchBackend.Controllers
             return newProd;
         }
 
-
+        /// <summary>
+        /// Async Get request to get all unfufilled orders
+        /// </summary>
+        /// <returns>List of all unfufiled orders</returns>
         [HttpGet("/admin/orders/current")]
         public async Task<List<OrderProjection>> GetAllCurrentOrders()
         {
