@@ -10,7 +10,7 @@ namespace BenchBackend.Queries
 {
     public class GetFilteredProducts : IGetFilteredProducts
     {
-        public async Task<List<ProductProjection>> GetBuyFiltered(int MinPrice, int MaxPrice)
+        public async Task<List<ProductProjection>> ExecuteAsync(int MinPrice, int MaxPrice)
         {
             using FlorasContext context = new FlorasContext();
 
