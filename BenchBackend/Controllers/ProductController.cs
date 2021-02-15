@@ -1,5 +1,4 @@
-﻿using BenchBackend.Data;
-using BenchBackend.Models;
+﻿using BenchBackend.Models;
 using BenchBackend.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
