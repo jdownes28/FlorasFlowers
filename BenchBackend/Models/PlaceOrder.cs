@@ -7,7 +7,6 @@ namespace BenchBackend.Models
 {
     public class PlaceOrder
     {
-        public DateTime OrderPlaced { get; set; }
         public string Email { get; set; }
         public string DeliveryAddress { get; set; }
         public int CustomerId { get; set; }
