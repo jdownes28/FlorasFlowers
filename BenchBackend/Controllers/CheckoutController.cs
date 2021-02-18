@@ -1,5 +1,6 @@
 ﻿using BenchBackend.Data;
 using BenchBackend.Models;
+using BenchBackend.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,20 +14,12 @@ namespace BenchBackend.Controllers
     public class CheckoutController : ControllerBase
     {
         [HttpPost("/order")]
-        public async Task PlaceOrder(PlaceOrder placeOrder)
+        public async Task<Order> PlaceOrderAsync(PlaceOrderParameters placeOrderParameters)
         {
-            using FlorasContext context = new FlorasContext();
-
-            Order order = new Order()
-            {
-                OrderPlaced = placeOrder.OrderPlaced,
-                DeliveryAddress = placeOrder.DeliveryAddress,
-                Customer = context.Customers.First(cus => cus.Id == placeOrder.CustomerId),
-                OrderFulfilled = null,
-                //ProductOrders = await CreateProductOrders(placeOrder.ProductsOrderedId)
-            };
-
-            var NewOrder = await context.Orders.AddAsync(order);
+            PlaceOrder placeOrder = new PlaceOrder();
+            var OrderStatus = await placeOrder.ExecuteAsync(placeOrderParameters);
+            return OrderStatus;
+            
         }
     }
 }

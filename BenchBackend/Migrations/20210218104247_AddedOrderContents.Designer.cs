@@ -4,14 +4,16 @@ using BenchBackend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BenchBackend.Migrations
 {
     [DbContext(typeof(FlorasContext))]
-    partial class FlorasContextModelSnapshot : ModelSnapshot
+    [Migration("20210218104247_AddedOrderContents")]
+    partial class AddedOrderContents
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,6 +138,31 @@ namespace BenchBackend.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("BenchBackend.Models.ProductOrder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("PriceCharged")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductOrders");
+                });
+
             modelBuilder.Entity("BenchBackend.Models.Review", b =>
                 {
                     b.Property<int>("Id")
@@ -185,6 +212,21 @@ namespace BenchBackend.Migrations
                     b.HasOne("BenchBackend.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("BenchBackend.Models.ProductOrder", b =>
+                {
+                    b.HasOne("BenchBackend.Models.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("BenchBackend.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+
+                    b.Navigation("Order");
 
                     b.Navigation("Product");
                 });

@@ -17,6 +17,8 @@ namespace BenchBackend.Models
 
         public Customer Customer { get; set; }
 
-        public ICollection<ProductOrder> ProductOrders { get; set; }
+        public double TotalOrderPrice { get; set; }
+
+        public ICollection<OrderContents> OrderContents { get; set; }
     }
 }
