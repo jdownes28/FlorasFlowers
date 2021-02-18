@@ -13,33 +13,19 @@ namespace BenchBackend.Queries
         {
             using FlorasContext context = new FlorasContext();
 
+            //Sample List
+            List<int> listOfProductId = new List<int>() { 1, 2 };
+
+            List<OrderContents> orderContents = CreateOrderContents(listOfProductId);
+            double totalOrderPrice = CalculateTotalPrice(orderContents);
+
             Order order = new Order()
             {
                 OrderPlaced = DateTime.Now,
                 OrderFulfilled = null,
+                OrderContents = orderContents,
+                TotalOrderPrice = totalOrderPrice
             };
-
-            List<OrderContents> listofcontents = new List<OrderContents>();
-
-            //Sample List
-            List<int> listOfProductId = new List<int>() { 1, 2 };
-
-            /*
-            foreach (var productId in listOfProductId)
-            {
-                var product = context.Products.First(id => id.Id == productId);
-                OrderContents orderContents = new OrderContents()
-                {
-                    Product = product,
-                    PriceAtTimeOfOrder = product.Price,
-                    Name = product.Name
-                };
-                listofcontents.Add(orderContents);
-            }
-            */
-
-            order.OrderContents = CreateContents(listOfProductId);
-            order.TotalOrderPrice = CalculateTotalPrice(order.OrderContents);
 
             await context.Orders.AddAsync(order);
             await context.SaveChangesAsync();
@@ -47,7 +33,7 @@ namespace BenchBackend.Queries
             return order;
         }
 
-        public List<OrderContents> CreateContents(List<int> listOfProductId)
+        public List<OrderContents> CreateOrderContents(List<int> listOfProductId)
         {
             using FlorasContext context = new FlorasContext();
 

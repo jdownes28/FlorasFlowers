@@ -8,5 +8,6 @@ namespace BenchBackend.Queries
     {
         Task<Order> ExecuteAsync();
         double CalculateTotalPrice(ICollection<OrderContents> orderContents);
+        List<OrderContents> CreateOrderContents(List<int> listOfProductId);
     }
 }
