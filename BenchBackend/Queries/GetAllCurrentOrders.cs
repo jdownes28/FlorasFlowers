@@ -23,20 +23,8 @@ namespace BenchBackend.Queries
                     Address = select.DeliveryAddress,
                     Name = $"{select.Customer.FirstName} {select.Customer.LastName}",
                     ProductsOrdered = select.OrderContents,
+                    TotalPrice = select.TotalOrderPrice,
                 }).ToListAsync();
-
-            /*
-            var CurrentOrders = await context.Orders.Include(vf => vf.ProductOrders)
-                .Where(order => order.OrderFulfilled == null)
-                .Select(select => new OrderProjection
-                {
-
-                    OrderPlaced = select.OrderPlaced,
-                    Address = select.Customer.Address,
-                    Name = $"{select.Customer.FirstName} {select.Customer.LastName}",
-                    ProductsOrdered = select.ProductOrders.Select(po => po.Product.Name),
-                }).ToListAsync();
-            */
 
             return CurrentOrders;
         }

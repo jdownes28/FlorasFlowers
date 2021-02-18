@@ -9,8 +9,8 @@ namespace BenchBackend.Models
     {
         public DateTime OrderPlaced { get; set; }
         public ICollection<OrderContents> ProductsOrdered { get; set; }
-        public IEnumerable<int> Quantity { get; set; }
         public string Address { get; set; }
         public string Name { get; set; }
+        public double TotalPrice { get; set; }
     }
 }

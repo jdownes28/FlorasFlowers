@@ -20,7 +20,5 @@ namespace BenchBackend.Models
         public double TotalOrderPrice { get; set; }
 
         public ICollection<OrderContents> OrderContents { get; set; }
-
-        //public ICollection<ProductOrder> ProductOrders { get; set; }
     }
 }
