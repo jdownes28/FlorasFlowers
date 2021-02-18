@@ -13,9 +13,6 @@ namespace BenchBackend.Queries
         {
             using FlorasContext context = new FlorasContext();
 
-            //Sample List
-            List<int> listOfProductId = new List<int>() { 1, 2 };
-
             List<OrderContents> orderContents = CreateOrderContents(placeOrderParameters.productsOrderedId);
             double totalOrderPrice = CalculateTotalPrice(orderContents);
 
