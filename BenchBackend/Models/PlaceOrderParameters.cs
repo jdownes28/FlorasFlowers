@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BenchBackend.Models
 {
-    public class PlaceOrder
+    public class PlaceOrderParameters
     {
         public string Email { get; set; }
         public string DeliveryAddress { get; set; }

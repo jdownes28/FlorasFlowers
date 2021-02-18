@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BenchBackend.Queries
 {
-    public class AdminEditProduct
+    public class AdminEditProduct : IAdminEditProduct
     {
         public async Task<string> ExecuteAsync(PostEditProductParameters EditedProduct)
         {

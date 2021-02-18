@@ -14,6 +14,18 @@ namespace BenchBackend.Queries
         {
             using FlorasContext context = new FlorasContext();
 
+            var CurrentOrders = await context.Orders
+                .Include(oc => oc.OrderContents)
+                .Where(order => order.OrderFulfilled == null)
+                .Select(select => new OrderProjection
+                {
+                    OrderPlaced = select.OrderPlaced,
+                    Address = select.DeliveryAddress,
+                    Name = $"{select.Customer.FirstName} {select.Customer.LastName}",
+                    ProductsOrdered = select.OrderContents,
+                }).ToListAsync();
+
+            /*
             var CurrentOrders = await context.Orders.Include(vf => vf.ProductOrders)
                 .Where(order => order.OrderFulfilled == null)
                 .Select(select => new OrderProjection
@@ -24,6 +36,7 @@ namespace BenchBackend.Queries
                     Name = $"{select.Customer.FirstName} {select.Customer.LastName}",
                     ProductsOrdered = select.ProductOrders.Select(po => po.Product.Name),
                 }).ToListAsync();
+            */
 
             return CurrentOrders;
         }

@@ -1,5 +1,6 @@
 ﻿using BenchBackend.Data;
 using BenchBackend.Models;
+using BenchBackend.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,37 +16,9 @@ namespace BenchBackend.Controllers
         [HttpGet("/order")]
         public async Task<Order> PlaceOrder()
         {
-            using FlorasContext context = new FlorasContext();
-
-            //Sample List
-            List<int> listOfProductId = new List<int>() { 1, 2 };
-
-            Order order = new Order();
-            List<OrderContents> listofcontents = new List<OrderContents>();
-
-            order.OrderPlaced = DateTime.Now;
-            order.OrderFulfilled = null;
-
-            foreach (var productId in listOfProductId)
-            {
-                var product = context.Products.First(id => id.Id == productId);
-                OrderContents orderContents = new OrderContents()
-                {
-                    Product = product,
-                    PriceAtTimeOfOrder = product.Price,
-                    Name = product.Name
-                };
-                listofcontents.Add(orderContents);
-            }
-
-            order.OrderContents = listofcontents;
-
-            return order;
-
-            /*
-            var CreateNewOrder = await context.Orders.AddAsync(order);
-            await context.SaveChangesAsync();
-            */
+            PlaceOrder placeOrder = new PlaceOrder();
+            var OrderStatus = await placeOrder.ExecuteAsync();
+            return OrderStatus;
         }
     }
 }
