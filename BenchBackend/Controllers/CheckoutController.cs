@@ -13,12 +13,13 @@ namespace BenchBackend.Controllers
     [ApiController]
     public class CheckoutController : ControllerBase
     {
-        [HttpGet("/order")]
-        public async Task<Order> PlaceOrder()
+        [HttpPost("/order")]
+        public async Task<Order> PlaceOrderAsync(PlaceOrderParameters placeOrderParameters)
         {
             PlaceOrder placeOrder = new PlaceOrder();
-            var OrderStatus = await placeOrder.ExecuteAsync();
+            var OrderStatus = await placeOrder.ExecuteAsync(placeOrderParameters);
             return OrderStatus;
+            
         }
     }
 }

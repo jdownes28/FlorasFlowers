@@ -9,14 +9,14 @@ namespace BenchBackend.Queries
 {
     public class PlaceOrder : IPlaceOrder
     {
-        public async Task<Order> ExecuteAsync()
+        public async Task<Order> ExecuteAsync(PlaceOrderParameters placeOrderParameters)
         {
             using FlorasContext context = new FlorasContext();
 
             //Sample List
             List<int> listOfProductId = new List<int>() { 1, 2 };
 
-            List<OrderContents> orderContents = CreateOrderContents(listOfProductId);
+            List<OrderContents> orderContents = CreateOrderContents(placeOrderParameters.productsOrderedId);
             double totalOrderPrice = CalculateTotalPrice(orderContents);
 
             Order order = new Order()

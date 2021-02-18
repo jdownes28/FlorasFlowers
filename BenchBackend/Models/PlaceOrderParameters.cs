@@ -7,9 +7,9 @@ namespace BenchBackend.Models
 {
     public class PlaceOrderParameters
     {
-        public string Email { get; set; }
-        public string DeliveryAddress { get; set; }
-        public int CustomerId { get; set; }
-        public List<int> ProductsOrderedId { get; set; }
+        public string email { get; set; }
+        public string deliveryAddress { get; set; }
+        public int customerId { get; set; }
+        public List<int> productsOrderedId { get; set; }
     }
 }
