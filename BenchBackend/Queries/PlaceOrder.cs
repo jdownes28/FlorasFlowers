@@ -21,7 +21,8 @@ namespace BenchBackend.Queries
                 OrderPlaced = DateTime.Now,
                 OrderFulfilled = null,
                 OrderContents = orderContents,
-                TotalOrderPrice = totalOrderPrice
+                TotalOrderPrice = totalOrderPrice,
+                DeliveryAddress = placeOrderParameters.deliveryAddress
             };
 
             await context.Orders.AddAsync(order);
