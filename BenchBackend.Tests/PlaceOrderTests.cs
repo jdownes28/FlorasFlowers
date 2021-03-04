@@ -1,13 +1,17 @@
 using BenchBackend.Models;
 using BenchBackend.Queries;
+using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace BenchBackend.Tests
 {
     public class PlaceOrderTests
     {
+
         [Fact]
         public void CalculateTotalPriceTest()
         {
