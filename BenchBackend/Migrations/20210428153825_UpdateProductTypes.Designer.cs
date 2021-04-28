@@ -4,14 +4,16 @@ using BenchBackend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BenchBackend.Migrations
 {
     [DbContext(typeof(FlorasContext))]
-    partial class FlorasContextModelSnapshot : ModelSnapshot
+    [Migration("20210428153825_UpdateProductTypes")]
+    partial class UpdateProductTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

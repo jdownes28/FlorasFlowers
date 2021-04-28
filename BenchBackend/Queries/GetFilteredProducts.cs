@@ -16,7 +16,7 @@ namespace BenchBackend.Queries
 
             var products = await context.Products
                 .Include(r => r.Reviews)
-                .Where(p => p.Type == "buy")
+                .Where(p => p.ProductType.Id == 1)
                 .Where(p => p.Price >= MinPrice && p.Price <= MaxPrice)
                 .Select(sel => new ProductProjection
                 {

@@ -13,7 +13,7 @@ namespace BenchBackend.Queries
         public async Task<List<Product>> ExecuteAsync()
         {
             using FlorasContext context = new FlorasContext();
-            var product = await context.Products.Where(p => p.Type == "sub").ToListAsync();
+            var product = await context.Products.Where(p => p.ProductType.Id == 2).ToListAsync();
             return product;
         }
     }
