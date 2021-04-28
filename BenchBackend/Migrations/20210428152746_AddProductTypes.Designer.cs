@@ -4,14 +4,16 @@ using BenchBackend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BenchBackend.Migrations
 {
     [DbContext(typeof(FlorasContext))]
-    partial class FlorasContextModelSnapshot : ModelSnapshot
+    [Migration("20210428152746_AddProductTypes")]
+    partial class AddProductTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,12 +148,10 @@ namespace BenchBackend.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<int?>("ProductTypeId")
-                        .HasColumnType("int");
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductTypeId");
 
                     b.ToTable("Products");
                 });
@@ -207,15 +207,6 @@ namespace BenchBackend.Migrations
                         .HasForeignKey("ProductId");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("BenchBackend.Models.Product", b =>
-                {
-                    b.HasOne("BenchBackend.Models.DataModels.ProductType", "ProductType")
-                        .WithMany()
-                        .HasForeignKey("ProductTypeId");
-
-                    b.Navigation("ProductType");
                 });
 
             modelBuilder.Entity("BenchBackend.Models.Review", b =>

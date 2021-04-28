@@ -1,4 +1,5 @@
 ﻿using BenchBackend.Models;
+using BenchBackend.Models.DataModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,16 +13,15 @@ namespace BenchBackend.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductType> ProductTypes { get; set; }
         public DbSet<OrderContents> OrderContents { get; set; }
         public DbSet<Review> Reviews { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            DateTime orderPlaced = new DateTime(2021, 01, 15);
-            DateTime orderFulfilled = new DateTime(2021, 01, 18);
-
-            modelBuilder.Entity<Order>().HasData(
-                new Order { Id = 1, OrderPlaced = orderPlaced, OrderFulfilled = orderFulfilled }
+            modelBuilder.Entity<ProductType>().HasData(
+                new ProductType { Id = 1, Type = "Buy" },
+                new ProductType { Id = 2, Type = "Subscription" }
             );
         }
 

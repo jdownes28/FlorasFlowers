@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BenchBackend.Models.DataModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace BenchBackend.Models
 
         public double Price { get; set; }
 
-        public string Type { get; set; }
+        public ProductType ProductType { get; set; }
 
         public ICollection<Review> Reviews { get; set; }
     }
