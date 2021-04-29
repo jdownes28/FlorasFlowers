@@ -32,6 +32,11 @@ namespace BenchBackend.Controllers
             return products;
         }
 
+        /// <summary>
+        /// Async Get Endpoint for getting product by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Singular product</returns>
         [HttpGet("/products/{id}")]
         public async Task<List<ProductProjection>> GetProductByIdAsync(int id)
         {
