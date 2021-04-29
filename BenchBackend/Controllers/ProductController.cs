@@ -1,4 +1,5 @@
-﻿using BenchBackend.Models;
+﻿using BenchBackend.Data;
+using BenchBackend.Models;
 using BenchBackend.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,9 +27,17 @@ namespace BenchBackend.Controllers
         [HttpGet("/products")]
         public async Task<List<ProductProjection>> GetProductsAsync()
         {
-            GetAllBuyProducts getAllBuyProducts = new GetAllBuyProducts();
+            GetAllBuyProducts getAllBuyProducts = new();
             var products = await getAllBuyProducts.ExecuteAsync();
             return products;
+        }
+
+        [HttpGet("/products/{id}")]
+        public async Task<List<ProductProjection>> GetProductByIdAsync(int id)
+        {
+            GetProductById getProductById = new();
+            var product = await getProductById.ExecuteAsync(id);
+            return product;
         }
 
         /// <summary>
