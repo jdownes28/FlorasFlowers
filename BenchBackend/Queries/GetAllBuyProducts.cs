@@ -21,8 +21,8 @@ namespace BenchBackend.Queries
                     Id = sel.Id,
                     Name = sel.Name,
                     Price = sel.Price,
-                    ReviewTitle = sel.Reviews.Select(r => r.Title),
-                    ReviewContent = sel.Reviews.Select(r => r.Content)
+                    Reviews = sel.Reviews,
+                    AvgRating = sel.Reviews.Select(r => r.Rating).Average()
                 }).ToListAsync();
 
             return products;

@@ -23,6 +23,14 @@ namespace BenchBackend.Data
                 new ProductType { Id = 1, Type = "Buy" },
                 new ProductType { Id = 2, Type = "Subscription" }
             );
+
+            /*
+            modelBuilder.Entity<Product>().HasData(
+                new Product { Id = 1, Name = "Small Roses Bunch", Price = 4.99, ProductType = 1 },
+                new Product { Id = 2, Name = "Lilys Bunch", Price = 8.99, ProductType = 1 },
+                new Product { Id = 1, Name = "Large Lilys Bunch", Price = 14.99, ProductType = 1 }
+            );
+            */
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

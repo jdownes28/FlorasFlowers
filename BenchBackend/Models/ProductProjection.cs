@@ -10,8 +10,7 @@ namespace BenchBackend.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public double Price { get; set; }
-        public IEnumerable<string> ReviewTitle { get; set; }
-        public IEnumerable<string> ReviewContent { get; set; }
+        public ICollection<Review> Reviews { get; set; }
         public double AvgRating { get; set; }
     }
 }
