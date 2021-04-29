@@ -38,11 +38,17 @@ namespace BenchBackend.Controllers
         /// <param name="id"></param>
         /// <returns>Singular product</returns>
         [HttpGet("/products/{id}")]
-        public async Task<List<ProductProjection>> GetProductByIdAsync(int id)
+        public async Task<IActionResult> GetProductByIdAsync(int id)
         {
             GetProductById getProductById = new();
             var product = await getProductById.ExecuteAsync(id);
-            return product;
+
+            if(product == null)
+            {
+                return StatusCode(404, "Either the product does not exist or there is an internal issue");
+            }
+
+            return StatusCode(200, product);
         }
 
         /// <summary>

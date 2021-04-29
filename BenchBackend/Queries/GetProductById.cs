@@ -1,20 +1,31 @@
 ﻿using BenchBackend.Data;
 using BenchBackend.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace BenchBackend.Queries
 {
-    public class GetProductById : IGetProductById
+    public class GetProductById
     {
-        public async Task<List<ProductProjection>> ExecuteAsync(int productId)
+        /*
+        private readonly ILogger<GetProductById> _logger;
+
+        public GetProductById(ILogger<GetProductById> logger)
+        {
+            _logger = logger;
+        }
+        */
+
+        public async Task<ProductProjection> ExecuteAsync(int productId)
         {
             using FlorasContext context = new();
 
-            var product = await context.Products
+            try
+            {
+                var product = await context.Products
                 .Include(p => p.Reviews)
                 .Where(p => p.Id == productId)
                 .Select(sel => new ProductProjection
@@ -25,9 +36,18 @@ namespace BenchBackend.Queries
                     Reviews = sel.Reviews,
                     AvgRating = sel.Reviews.Select(r => r.Rating).Average()
                 })
-                .ToListAsync();
+                .FirstAsync();
+                return product;
+            }
+            catch(Exception e)
+            {
+                //_logger.LogError(e.ToString());
+                return null;
+            }
 
-            return product;
+            
+
+            
         }
     }
 }
