@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BenchBackend.Queries
+namespace BenchBackend.Services
 {
     public class GetProductById : IGetProductById 
     {

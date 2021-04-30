@@ -1,7 +1,7 @@
 ﻿using BenchBackend.Models;
 using System.Threading.Tasks;
 
-namespace BenchBackend.Queries
+namespace BenchBackend.Services
 {
     public interface IAdminEditProduct
     {

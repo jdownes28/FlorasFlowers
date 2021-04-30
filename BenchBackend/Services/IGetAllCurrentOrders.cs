@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BenchBackend.Queries
+namespace BenchBackend.Services
 {
     public interface IGetAllCurrentOrders
     {
