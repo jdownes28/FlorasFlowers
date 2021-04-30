@@ -1,4 +1,5 @@
-﻿using BenchBackend.Models;
+﻿using BenchBackend.Data;
+using BenchBackend.Models;
 using BenchBackend.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,9 +27,39 @@ namespace BenchBackend.Controllers
         [HttpGet("/products")]
         public async Task<List<ProductProjection>> GetProductsAsync()
         {
-            GetAllBuyProducts getAllBuyProducts = new GetAllBuyProducts();
+            GetAllBuyProducts getAllBuyProducts = new();
             var products = await getAllBuyProducts.ExecuteAsync();
             return products;
+        }
+
+        /// <summary>
+        /// Async Get Endpoint for getting product by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Singular product</returns>
+        [HttpGet("/products/{id}")]
+        public async Task<IActionResult> GetProductByIdAsync(int id)
+        {
+            GetProductById getProductById = new();
+
+            try
+            {
+                var product = await getProductById.ExecuteAsync(id);
+
+                if(product != null)
+                {
+                    return StatusCode(200, product);
+                }
+                else
+                {
+                    return StatusCode(404, $"Product with Id {id} does not exist");
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, "There has been an error");
+            }
         }
 
         /// <summary>
