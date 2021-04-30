@@ -58,7 +58,7 @@ namespace BenchBackend.Controllers
             catch(Exception e)
             {
                 Console.WriteLine(e);
-                return StatusCode(500, "There has been an error");
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -66,20 +66,17 @@ namespace BenchBackend.Controllers
         public async Task<IActionResult> GetProductReviewsAsync(int id)
         {
             GetReviews getReviews = new();
-            var result = await getReviews.ExecuteAsync(id);
 
-            return Ok(result);
-
-            /*
-            if (result.Count == 0)
+            try
             {
-                return StatusCode(404, "No reviews for this product");
+                var result = await getReviews.ExecuteAsync(id);
+                return StatusCode(200, result);
             }
-            else
+            catch(Exception e)
             {
-                return Ok(result);
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
             }
-            */
         }
 
         /// <summary>
