@@ -62,6 +62,11 @@ namespace BenchBackend.Controllers
             }
         }
 
+        /// <summary>
+        /// Async endpoint for getting reviews for a product
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Reviews for a product</returns>
         [HttpGet("/products/{id}/reviews")]
         public async Task<IActionResult> GetProductReviewsAsync(int id)
         {
