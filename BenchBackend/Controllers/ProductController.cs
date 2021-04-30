@@ -62,6 +62,26 @@ namespace BenchBackend.Controllers
             }
         }
 
+        [HttpGet("/products/{id}/reviews")]
+        public async Task<IActionResult> GetProductReviewsAsync(int id)
+        {
+            GetReviews getReviews = new();
+            var result = await getReviews.ExecuteAsync(id);
+
+            return Ok(result);
+
+            /*
+            if (result.Count == 0)
+            {
+                return StatusCode(404, "No reviews for this product");
+            }
+            else
+            {
+                return Ok(result);
+            }
+            */
+        }
+
         /// <summary>
         /// Async Get endpoint for getting a filtered list of products
         /// using a price range
