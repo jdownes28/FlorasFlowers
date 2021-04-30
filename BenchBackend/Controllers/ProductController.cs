@@ -41,14 +41,25 @@ namespace BenchBackend.Controllers
         public async Task<IActionResult> GetProductByIdAsync(int id)
         {
             GetProductById getProductById = new();
-            var product = await getProductById.ExecuteAsync(id);
 
-            if(product == null)
+            try
             {
-                return StatusCode(404, "Either the product does not exist or there is an internal issue");
-            }
+                var product = await getProductById.ExecuteAsync(id);
 
-            return StatusCode(200, product);
+                if(product != null)
+                {
+                    return StatusCode(200, product);
+                }
+                else
+                {
+                    return StatusCode(404, $"Product with Id {id} does not exist");
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, "There has been an error");
+            }
         }
 
         /// <summary>

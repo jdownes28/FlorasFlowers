@@ -13,9 +13,10 @@ namespace BenchBackend.Queries
         public async Task<List<ProductProjection>> ExecuteAsync()
         {
             using FlorasContext context = new FlorasContext();
+
             var products = await context.Products
                 .Include(r => r.Reviews)
-                .Where(p => p.ProductType.Id == 1)
+                .Where(prod => prod.ProductType.Id == 1)
                 .Select(sel => new ProductProjection
                 {
                     Id = sel.Id,
@@ -23,7 +24,9 @@ namespace BenchBackend.Queries
                     Price = sel.Price,
                     Reviews = sel.Reviews,
                     AvgRating = sel.Reviews.Select(r => r.Rating).Average()
-                }).ToListAsync();
+                }
+                )
+                .ToListAsync();
 
             return products;
         }

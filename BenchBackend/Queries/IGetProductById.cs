@@ -6,6 +6,6 @@ namespace BenchBackend.Queries
 {
     public interface IGetProductById
     {
-        Task<List<ProductProjection>> ExecuteAsync(int productId);
+        Task<ProductProjection> ExecuteAsync(int productId);
     }
 }

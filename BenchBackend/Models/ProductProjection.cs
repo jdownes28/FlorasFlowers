@@ -10,7 +10,10 @@ namespace BenchBackend.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public double Price { get; set; }
-        public ICollection<Review> Reviews { get; set; }
-        public double AvgRating { get; set; }
+#nullable enable
+        public ICollection<Review>? Reviews { get; set; }
+        public double? AvgRating { get; set; }
+#nullable disable
+
     }
 }
