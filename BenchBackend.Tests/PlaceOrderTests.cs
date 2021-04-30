@@ -1,5 +1,5 @@
 using BenchBackend.Models;
-using BenchBackend.Queries;
+using BenchBackend.Services;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections.Generic;

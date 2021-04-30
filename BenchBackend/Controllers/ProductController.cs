@@ -1,6 +1,5 @@
-﻿using BenchBackend.Data;
-using BenchBackend.Models;
-using BenchBackend.Queries;
+﻿using BenchBackend.Models;
+using BenchBackend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

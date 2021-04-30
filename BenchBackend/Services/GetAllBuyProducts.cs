@@ -6,25 +6,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BenchBackend.Queries
+namespace BenchBackend.Services
 {
-    public class GetFilteredProducts : IGetFilteredProducts
+    public class GetAllBuyProducts : IGetAllBuyProducts
     {
-        public async Task<List<ProductProjection>> ExecuteAsync(int MinPrice, int MaxPrice)
+        public async Task<List<ProductProjection>> ExecuteAsync()
         {
             using FlorasContext context = new FlorasContext();
 
             var products = await context.Products
                 .Include(r => r.Reviews)
-                .Where(p => p.ProductType.Id == 1)
-                .Where(p => p.Price >= MinPrice && p.Price <= MaxPrice)
+                .Where(prod => prod.ProductType.Id == 1)
                 .Select(sel => new ProductProjection
                 {
+                    Id = sel.Id,
                     Name = sel.Name,
                     Price = sel.Price,
                     Reviews = sel.Reviews,
                     AvgRating = sel.Reviews.Select(r => r.Rating).Average()
-                }).ToListAsync();
+                }
+                )
+                .ToListAsync();
 
             return products;
         }
