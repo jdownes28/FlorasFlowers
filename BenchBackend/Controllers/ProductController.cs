@@ -57,8 +57,25 @@ namespace BenchBackend.Controllers
             }
             catch(Exception e)
             {
-                Console.WriteLine(e);
-                return StatusCode(500, "There has been an error");
+                _logger.LogError(e.StackTrace);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpGet("/products/{id}/reviews")]
+        public async Task<IActionResult> GetProductReviewsAsync(int id)
+        {
+            GetReviews getReviews = new();
+
+            try
+            {
+                var result = await getReviews.ExecuteAsync(id);
+                return StatusCode(200, result);
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e.StackTrace);
+                return StatusCode(500, e.Message);
             }
         }
 
