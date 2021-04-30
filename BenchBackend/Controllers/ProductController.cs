@@ -57,7 +57,7 @@ namespace BenchBackend.Controllers
             }
             catch(Exception e)
             {
-                Console.WriteLine(e);
+                _logger.LogError(e.StackTrace);
                 return StatusCode(500, e.Message);
             }
         }
@@ -74,7 +74,7 @@ namespace BenchBackend.Controllers
             }
             catch(Exception e)
             {
-                Console.WriteLine(e);
+                _logger.LogError(e.StackTrace);
                 return StatusCode(500, e.Message);
             }
         }
