@@ -70,6 +70,10 @@ namespace BenchBackend.Controllers
             try
             {
                 var result = await getReviews.ExecuteAsync(id);
+                if(result.Count < 1)
+                {
+                    return StatusCode(404, $"The product of id {id} does not exist");
+                }
                 return StatusCode(200, result);
             }
             catch(Exception e)
