@@ -43,19 +43,17 @@ namespace BenchBackend.Controllers
         }
 
         [HttpGet("admin/products/xml")]
-        public IActionResult ProductsXml()
+        public async Task<IActionResult> ProductsXmlAsync()
         {
             using FlorasContext context = new();
-            var allProducts = context.Products.Select(sel => new ProductXml
-            {
-                Name = sel.Name,
-                Price = sel.Price
-            });
+            var allProducts = await context.Products
+                .Include(r => r.Reviews)
+                .ToListAsync();
 
             using MemoryStream stream = new MemoryStream();
             XmlTextWriter xmlWriter = new XmlTextWriter(stream, Encoding.UTF8);
 
-            var serializer = new DataContractSerializer(typeof(IEnumerable<ProductXml>));
+            var serializer = new DataContractSerializer(typeof(IEnumerable<Product>));
             serializer.WriteObject(xmlWriter, allProducts);
             xmlWriter.Flush();
             DateTime dateTime = new();
