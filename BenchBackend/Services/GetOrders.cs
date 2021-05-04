@@ -10,12 +10,9 @@ namespace BenchBackend.Services
 {
     public class GetOrders : IGetOrders
     {
-
-        private readonly FlorasContext context;
-
         public async Task<List<OrderProjection>> GetCurrentOrdersAsync()
         {
-
+            using FlorasContext context = new();
             var CurrentOrders = await context.Orders
                 .Include(oc => oc.OrderContents)
                 .Where(order => order.OrderFulfilled == null)
@@ -33,6 +30,7 @@ namespace BenchBackend.Services
 
         public async Task<List<Order>> GetAllOrdersAsync()
         {
+            using FlorasContext context = new();
             var allOrders = await context.Orders
                 .Include(oc => oc.OrderContents).ThenInclude(p => p.Product).ThenInclude(pt => pt.ProductType)
                 .Include(cus => cus.Customer)
