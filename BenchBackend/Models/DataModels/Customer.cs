@@ -9,7 +9,6 @@ namespace BenchBackend.Models
     [DataContract]
     public class Customer
     {
-#nullable enable
         public int Id { get; set; }
 
         [DataMember]
@@ -18,6 +17,8 @@ namespace BenchBackend.Models
         [DataMember]
         public string LastName { get; set; }
 
+#nullable enable
+
         [DataMember]
         public string? Address { get; set; }
 
@@ -25,6 +26,7 @@ namespace BenchBackend.Models
 
         [DataMember]
         public string? Email { get; set; }
+
 #nullable disable
 
         public ICollection<Order> Orders { get; set; }
