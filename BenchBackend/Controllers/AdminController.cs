@@ -4,6 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BenchBackend.Services;
+using BenchBackend.Data;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Xml;
+using System.Text;
 
 namespace BenchBackend.Controllers
 {
@@ -33,6 +40,27 @@ namespace BenchBackend.Controllers
             GetAllCurrentOrders getAllCurrentOrders = new GetAllCurrentOrders();
             var CurrentOrders = await getAllCurrentOrders.ExecuteAsync();
             return CurrentOrders;
+        }
+
+        [HttpGet("admin/products/xml")]
+        public IActionResult ProductsXml()
+        {
+            using FlorasContext context = new();
+            var allProducts = context.Products.Select(sel => new ProductXml
+            {
+                Name = sel.Name,
+                Price = sel.Price
+            });
+
+            using MemoryStream stream = new MemoryStream();
+            XmlTextWriter xmlWriter = new XmlTextWriter(stream, Encoding.UTF8);
+
+            var serializer = new DataContractSerializer(typeof(IEnumerable<ProductXml>));
+            serializer.WriteObject(xmlWriter, allProducts);
+            xmlWriter.Flush();
+            DateTime dateTime = new();
+            var filename = $"Products_{dateTime.Date}.xml";
+            return File(stream.ToArray(), "text/xml", filename);
         }
     }
 }
