@@ -7,5 +7,6 @@ namespace BenchBackend.Services
     public interface IGetOrders
     {
         Task<List<OrderProjection>> GetCurrentOrdersAsync();
+        Task<List<Order>> GetAllOrdersAsync();
     }
 }
