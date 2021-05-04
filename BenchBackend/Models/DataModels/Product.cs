@@ -16,10 +16,12 @@ namespace BenchBackend.Models
         [Required]
         [DataMember]
         public string Name { get; set; }
-        [DataMember]
+
         public double Price { get; set; }
-        public ProductType ProductType { get; set; }
+
         [DataMember]
+        public ProductType ProductType { get; set; }
+
         public ICollection<Review> Reviews { get; set; }
     }
 }

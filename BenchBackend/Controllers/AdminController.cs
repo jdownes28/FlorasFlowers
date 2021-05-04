@@ -60,5 +60,25 @@ namespace BenchBackend.Controllers
             var filename = $"Products_{dateTime.Date}.xml";
             return File(stream.ToArray(), "text/xml", filename);
         }
+
+        [HttpGet("admin/orders/xml")]
+        public async Task<IActionResult> OrdersXmlAsync()
+        {
+            using FlorasContext context = new();
+            var allOrders = await context.Orders
+                .Include(oc => oc.OrderContents).ThenInclude(p => p.Product)
+                .Include(cus => cus.Customer)
+                .ToListAsync();
+
+            using MemoryStream stream = new MemoryStream();
+            XmlTextWriter xmlWriter = new XmlTextWriter(stream, Encoding.UTF8);
+
+            var serializer = new DataContractSerializer(typeof(IEnumerable<Order>));
+            serializer.WriteObject(xmlWriter, allOrders);
+            xmlWriter.Flush();
+            DateTime dateTime = new();
+            var filename = $"Orders_{dateTime.Date}.xml";
+            return File(stream.ToArray(), "text/xml", filename);
+        }
     }
 }
