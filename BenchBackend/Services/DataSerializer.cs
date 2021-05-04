@@ -18,7 +18,6 @@ namespace BenchBackend.Services
             var serializer = new DataContractSerializer(myObject.GetType());
             serializer.WriteObject(xmlWriter, myObject);
             xmlWriter.Flush();
-            var filename = $"Orders_{DateTime.Now}.xml";
 
             return stream.ToArray();
         }
