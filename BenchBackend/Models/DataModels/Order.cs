@@ -21,7 +21,7 @@ namespace BenchBackend.Models
         [DataMember]
         public string DeliveryAddress { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "CustomerDetails")]
         public Customer Customer { get; set; }
 
         [DataMember]

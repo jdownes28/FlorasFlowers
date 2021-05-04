@@ -66,7 +66,7 @@ namespace BenchBackend.Controllers
         {
             using FlorasContext context = new();
             var allOrders = await context.Orders
-                .Include(oc => oc.OrderContents).ThenInclude(p => p.Product)
+                .Include(oc => oc.OrderContents).ThenInclude(p => p.Product).ThenInclude(pt => pt.ProductType)
                 .Include(cus => cus.Customer)
                 .ToListAsync();
 

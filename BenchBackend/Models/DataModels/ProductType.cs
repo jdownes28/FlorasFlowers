@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BenchBackend.Models.DataModels
 {
-    [DataContract]
+    [DataContract(Name = "ProductType")]
     public class ProductType
     {
         public int Id { get; set; }

@@ -11,6 +11,7 @@ namespace BenchBackend.Models
     [DataContract(Name = "Product", Namespace = "http://www.flowers.com")]
     public class Product
     {
+        [DataMember]
         public int Id { get; set; }
 
         [Required]

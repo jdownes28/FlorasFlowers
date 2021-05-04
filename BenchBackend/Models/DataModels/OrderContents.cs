@@ -11,10 +11,9 @@ namespace BenchBackend.Models
     {
         public int Id { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "ProductDetails")]
         public Product Product { get; set; }
 
-        [DataMember]
         public string Name { get; set; }
 
         [DataMember]
