@@ -8,11 +8,13 @@ using System.Threading.Tasks;
 
 namespace BenchBackend.Services
 {
-    public class GetAllCurrentOrders : IGetAllCurrentOrders
+    public class GetOrders : IGetOrders
     {
-        public async Task<List<OrderProjection>> ExecuteAsync()
+
+        private readonly FlorasContext context;
+
+        public async Task<List<OrderProjection>> GetCurrentOrdersAsync()
         {
-            using FlorasContext context = new FlorasContext();
 
             var CurrentOrders = await context.Orders
                 .Include(oc => oc.OrderContents)
@@ -27,6 +29,16 @@ namespace BenchBackend.Services
                 }).ToListAsync();
 
             return CurrentOrders;
+        }
+
+        public async Task<List<Order>> GetAllOrdersAsync()
+        {
+            var allOrders = await context.Orders
+                .Include(oc => oc.OrderContents).ThenInclude(p => p.Product).ThenInclude(pt => pt.ProductType)
+                .Include(cus => cus.Customer)
+                .ToListAsync();
+
+            return allOrders;
         }
 
     }

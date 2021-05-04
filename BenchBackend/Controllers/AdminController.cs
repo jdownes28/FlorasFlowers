@@ -37,31 +37,35 @@ namespace BenchBackend.Controllers
         [HttpGet("/admin/orders/current")]
         public async Task<List<OrderProjection>> GetAllCurrentOrders()
         {
-            GetAllCurrentOrders getAllCurrentOrders = new GetAllCurrentOrders();
-            var CurrentOrders = await getAllCurrentOrders.ExecuteAsync();
+            GetOrders getAllCurrentOrders = new GetOrders();
+            var CurrentOrders = await getAllCurrentOrders.GetCurrentOrdersAsync();
             return CurrentOrders;
         }
 
         [HttpGet("admin/orders/xml")]
         public async Task<IActionResult> OrdersXmlAsync()
         {
-            // Get all orders as allOrders as a list of orders
-            using FlorasContext context = new();
-            var allOrders = await context.Orders
-                .Include(oc => oc.OrderContents).ThenInclude(p => p.Product).ThenInclude(pt => pt.ProductType)
-                .Include(cus => cus.Customer)
-                .ToListAsync();
+            GetOrders getOrders = new();
+            DataSerializer serializer = new();
 
-            using MemoryStream stream = new();
-            XmlTextWriter xmlWriter = new(stream, Encoding.UTF8);
+            try
+            {
+                var allOrders = await getOrders.GetAllOrdersAsync();
+                byte[] xml = serializer.Serialize(allOrders);
 
-            // Serialize allOrders to xml
-            var serializer = new DataContractSerializer(typeof(IEnumerable<Order>));
-            serializer.WriteObject(xmlWriter, allOrders);
-            xmlWriter.Flush();
-            var filename = $"Orders_{DateTime.Now}.xml";
+                string filename = $"Orders_{DateTime.Now}.xml";
 
-            return File(stream.ToArray(), "text/xml", filename);
+                return File(xml, "text/xml", filename);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
+            
+
+
+
         }
     }
 }

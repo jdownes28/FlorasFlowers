@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 namespace BenchBackend.Services
 {
-    public interface IGetAllCurrentOrders
+    public interface IGetOrders
     {
-        Task<List<OrderProjection>> ExecuteAsync();
+        Task<List<OrderProjection>> GetCurrentOrdersAsync();
     }
 }
