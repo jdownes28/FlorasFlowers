@@ -42,25 +42,6 @@ namespace BenchBackend.Controllers
             return CurrentOrders;
         }
 
-        [HttpGet("admin/products/xml")]
-        public async Task<IActionResult> ProductsXmlAsync()
-        {
-            using FlorasContext context = new();
-            var allProducts = await context.Products
-                .Include(r => r.Reviews)
-                .ToListAsync();
-
-            using MemoryStream stream = new MemoryStream();
-            XmlTextWriter xmlWriter = new XmlTextWriter(stream, Encoding.UTF8);
-
-            var serializer = new DataContractSerializer(typeof(IEnumerable<Product>));
-            serializer.WriteObject(xmlWriter, allProducts);
-            xmlWriter.Flush();
-            DateTime dateTime = new();
-            var filename = $"Products_{dateTime.Date}.xml";
-            return File(stream.ToArray(), "text/xml", filename);
-        }
-
         [HttpGet("admin/orders/xml")]
         public async Task<IActionResult> OrdersXmlAsync()
         {
