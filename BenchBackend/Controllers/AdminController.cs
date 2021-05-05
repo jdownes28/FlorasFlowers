@@ -46,7 +46,7 @@ namespace BenchBackend.Controllers
         public async Task<IActionResult> OrdersXmlAsync()
         {
             GetOrders getOrders = new();
-            DataSerializer serializer = new();
+            DataSerializer<List<Order>> serializer = new();
 
             try
             {
@@ -62,10 +62,6 @@ namespace BenchBackend.Controllers
                 Console.WriteLine(e);
                 return StatusCode(500, e.Message);
             }
-            
-
-
-
         }
     }
 }
