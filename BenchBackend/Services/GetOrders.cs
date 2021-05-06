@@ -37,8 +37,7 @@ namespace BenchBackend.Services
 
         public async Task<List<Order>> GetAllOrdersAsync()
         {
-            using FlorasContext context = new();
-            var allOrders = await context.Orders
+            var allOrders = await _context.Orders
                 .Include(oc => oc.OrderContents).ThenInclude(p => p.Product).ThenInclude(pt => pt.ProductType)
                 .Include(cus => cus.Customer)
                 .ToListAsync();

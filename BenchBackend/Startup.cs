@@ -34,9 +34,16 @@ namespace BenchBackend
         public void ConfigureServices(IServiceCollection services)
         {
             // Dependency Injection
-            services.AddScoped<IGetOrders, GetOrders>();
             services.AddScoped<IAdminEditProduct, AdminEditProduct>();
+            services.AddScoped<IDataSerializer, DataSerializer>();
+            services.AddScoped<IGetAllBuyProducts, GetAllBuyProducts>();
+            services.AddScoped<IGetFilteredProducts, GetFilteredProducts>();
+            services.AddScoped<IGetOrders, GetOrders>();
+            services.AddScoped<IGetProductById, GetProductById>();
             services.AddScoped<IGetReviews, GetReviews>();
+            services.AddScoped<IGetSubscriptions, GetSubscriptions>();
+            services.AddScoped<IPlaceOrder, PlaceOrder>();
+
 
             // Db Context Dependency Injection
             services.AddDbContext<FlorasContext>(options =>

@@ -14,10 +14,12 @@ namespace BenchBackend.Controllers
         private readonly ILogger<AdminController> _logger;
         private readonly IGetOrders _getOrders;
         private readonly IAdminEditProduct _adminEditProduct;
+        private readonly IDataSerializer _serializer;
 
-        public AdminController(ILogger<AdminController> logger, IGetOrders getOrders, IAdminEditProduct adminEditProduct)
+        public AdminController(ILogger<AdminController> logger, IDataSerializer serializer, IGetOrders getOrders, IAdminEditProduct adminEditProduct)
         {
             _logger = logger;
+            _serializer = serializer;
             _getOrders = getOrders;
             _adminEditProduct = adminEditProduct;
         }
@@ -48,12 +50,10 @@ namespace BenchBackend.Controllers
         [HttpGet("admin/orders/xml")]
         public async Task<IActionResult> OrdersXmlAsync()
         {
-            DataSerializer<List<Order>> serializer = new();
-
             try
             {
                 var allOrders = await _getOrders.GetAllOrdersAsync();
-                byte[] xml = serializer.Serialize(allOrders);
+                byte[] xml = _serializer.Serialize(allOrders);
                 string filename = $"Orders_{DateTime.Now}.xml";
 
                 return File(xml, "text/xml", filename);

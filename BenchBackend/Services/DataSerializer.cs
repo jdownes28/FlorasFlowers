@@ -8,9 +8,9 @@ using System.Text;
 
 namespace BenchBackend.Services
 {
-    public class DataSerializer<T>
+    public class DataSerializer : IDataSerializer
     {
-        public byte[] Serialize(T myObject)
+        public byte[] Serialize<T>(T myObject)
         {
             using MemoryStream stream = new();
             XmlTextWriter xmlWriter = new(stream, Encoding.UTF8);

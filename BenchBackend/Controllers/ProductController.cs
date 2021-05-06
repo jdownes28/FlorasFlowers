@@ -13,12 +13,27 @@ namespace BenchBackend.Controllers
     public class ProductController : ControllerBase
     {
         private readonly ILogger<ProductController> _logger;
-        private readonly IGetReviews _getReviews;
+        private readonly IGetAllBuyProducts getAllBuyProducts;
+        private readonly IGetReviews getReviews;
+        private readonly IGetProductById getProductById;
+        private readonly IGetFilteredProducts getFilteredProducts;
+        private readonly IGetSubscriptions getSubscriptions;
 
-        public ProductController(ILogger<ProductController> logger, IGetReviews getReviews)
+        public ProductController(
+            ILogger<ProductController> logger, 
+            IGetAllBuyProducts getAllBuyProducts, 
+            IGetProductById getProductById,
+            IGetReviews getReviews,
+            IGetFilteredProducts getFilteredProducts,
+            IGetSubscriptions getSubscriptions
+            )
         {
             _logger = logger;
-            _getReviews = getReviews;
+            this.getAllBuyProducts = getAllBuyProducts;
+            this.getProductById = getProductById;
+            this.getReviews = getReviews;
+            this.getFilteredProducts = getFilteredProducts;
+            this.getSubscriptions = getSubscriptions;
         }
 
         /// <summary>
@@ -28,7 +43,6 @@ namespace BenchBackend.Controllers
         [HttpGet("/products")]
         public async Task<List<ProductProjection>> GetProductsAsync()
         {
-            GetAllBuyProducts getAllBuyProducts = new();
             var products = await getAllBuyProducts.ExecuteAsync();
             return products;
         }
@@ -41,8 +55,6 @@ namespace BenchBackend.Controllers
         [HttpGet("/products/{id}")]
         public async Task<IActionResult> GetProductByIdAsync(int id)
         {
-            GetProductById getProductById = new();
-
             try
             {
                 var product = await getProductById.ExecuteAsync(id);
@@ -73,7 +85,7 @@ namespace BenchBackend.Controllers
         {
             try
             {
-                var result = await _getReviews.ExecuteAsync(id);
+                var result = await getReviews.ExecuteAsync(id);
                 if(result.Count < 1)
                 {
                     return StatusCode(404, $"The product of id {id} does not exist");
@@ -97,8 +109,7 @@ namespace BenchBackend.Controllers
         [HttpGet("/products/filter")]
         public async Task<List<ProductProjection>> GetFilteredProductsAsync([FromQuery] int MinPrice, [FromQuery] int MaxPrice)
         {
-            GetFilteredProducts filteredProducts = new GetFilteredProducts();
-            var products = await filteredProducts.ExecuteAsync(MinPrice, MaxPrice);
+            var products = await getFilteredProducts.ExecuteAsync(MinPrice, MaxPrice);
             return products;
         }
 
@@ -110,7 +121,6 @@ namespace BenchBackend.Controllers
         [Authorize]
         public async Task<List<Product>> GetSubscriptionsAsync()
         {
-            GetSubscriptions getSubscriptions = new GetSubscriptions();
             var subscriptions = await getSubscriptions.ExecuteAsync();
 
             return subscriptions;
