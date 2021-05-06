@@ -10,11 +10,16 @@ namespace BenchBackend.Services
 {
     public class GetFilteredProducts : IGetFilteredProducts
     {
+        private readonly FlorasContext _context;
+
+        public GetFilteredProducts(FlorasContext context)
+        {
+            _context = context;
+        }
+
         public async Task<List<ProductProjection>> ExecuteAsync(int MinPrice, int MaxPrice)
         {
-            using FlorasContext context = new FlorasContext();
-
-            var products = await context.Products
+            var products = await _context.Products
                 .Include(r => r.Reviews)
                 .Where(p => p.ProductType.Id == 1)
                 .Where(p => p.Price >= MinPrice && p.Price <= MaxPrice)

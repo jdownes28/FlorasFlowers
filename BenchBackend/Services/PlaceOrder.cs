@@ -9,10 +9,15 @@ namespace BenchBackend.Services
 {
     public class PlaceOrder : IPlaceOrder
     {
+        private readonly FlorasContext _context;
+
+        public PlaceOrder(FlorasContext context)
+        {
+            _context = context;
+        }
+
         public async Task<Order> ExecuteAsync(PlaceOrderParameters placeOrderParameters)
         {
-            using FlorasContext context = new FlorasContext();
-
             List<OrderContents> orderContents = CreateOrderContents(placeOrderParameters.productsOrderedId);
             double totalOrderPrice = CalculateTotalPrice(orderContents);
 
@@ -25,22 +30,20 @@ namespace BenchBackend.Services
                 DeliveryAddress = placeOrderParameters.deliveryAddress
             };
 
-            await context.Orders.AddAsync(order);
-            await context.SaveChangesAsync();
+            await _context.Orders.AddAsync(order);
+            await _context.SaveChangesAsync();
 
             return order;
         }
 
         public List<OrderContents> CreateOrderContents(List<int> listOfProductId)
         {
-            using FlorasContext context = new FlorasContext();
-
-            List<OrderContents> listofcontents = new List<OrderContents>();
+            List<OrderContents> listofcontents = new();
 
             foreach (var productId in listOfProductId)
             {
-                var product = context.Products.First(id => id.Id == productId);
-                OrderContents orderContents = new OrderContents()
+                var product = _context.Products.First(id => id.Id == productId);
+                OrderContents orderContents = new()
                 {
                     PriceAtTimeOfOrder = product.Price,
                     Name = product.Name

@@ -10,10 +10,16 @@ namespace BenchBackend.Services
 {
     public class GetSubscriptions : IGetSubscriptions
     {
+        private readonly FlorasContext _context;
+
+        public GetSubscriptions(FlorasContext context)
+        {
+            _context = context;
+        }
+
         public async Task<List<Product>> ExecuteAsync()
         {
-            using FlorasContext context = new FlorasContext();
-            var product = await context.Products.Where(p => p.ProductType.Id == 2).ToListAsync();
+            var product = await _context.Products.Where(p => p.ProductType.Id == 2).ToListAsync();
             return product;
         }
     }

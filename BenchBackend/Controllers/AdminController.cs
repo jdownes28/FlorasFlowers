@@ -4,19 +4,26 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BenchBackend.Services;
-using BenchBackend.Data;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Xml;
-using System.Text;
+using Microsoft.Extensions.Logging;
 
 namespace BenchBackend.Controllers
 {
     [ApiController]
     public class AdminController : ControllerBase
     {
+        private readonly ILogger<AdminController> _logger;
+        private readonly IGetOrders _getOrders;
+        private readonly IAdminEditProduct _adminEditProduct;
+        private readonly IDataSerializer _serializer;
+
+        public AdminController(ILogger<AdminController> logger, IDataSerializer serializer, IGetOrders getOrders, IAdminEditProduct adminEditProduct)
+        {
+            _logger = logger;
+            _serializer = serializer;
+            _getOrders = getOrders;
+            _adminEditProduct = adminEditProduct;
+        }
+
         /// <summary>
         /// Async Post request to edit a current product
         /// </summary>
@@ -25,8 +32,7 @@ namespace BenchBackend.Controllers
         [HttpPost("/admin/product/edit")]
         public async Task<string> PostEditedProduct(PostEditProductParameters EditedProduct)
         {
-            AdminEditProduct adminEditProduct = new AdminEditProduct();
-            var newProd = await adminEditProduct.ExecuteAsync(EditedProduct);
+            var newProd = await _adminEditProduct.ExecuteAsync(EditedProduct);
             return newProd;
         }
 
@@ -37,22 +43,17 @@ namespace BenchBackend.Controllers
         [HttpGet("/admin/orders/current")]
         public async Task<List<OrderProjection>> GetAllCurrentOrders()
         {
-            GetOrders getAllCurrentOrders = new GetOrders();
-            var CurrentOrders = await getAllCurrentOrders.GetCurrentOrdersAsync();
+            var CurrentOrders = await _getOrders.GetCurrentOrdersAsync();
             return CurrentOrders;
         }
 
         [HttpGet("admin/orders/xml")]
         public async Task<IActionResult> OrdersXmlAsync()
         {
-            GetOrders getOrders = new();
-            DataSerializer<List<Order>> serializer = new();
-
             try
             {
-                var allOrders = await getOrders.GetAllOrdersAsync();
-                byte[] xml = serializer.Serialize(allOrders);
-
+                var allOrders = await _getOrders.GetAllOrdersAsync();
+                byte[] xml = _serializer.Serialize(allOrders);
                 string filename = $"Orders_{DateTime.Now}.xml";
 
                 return File(xml, "text/xml", filename);

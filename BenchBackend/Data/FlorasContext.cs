@@ -10,6 +10,14 @@ namespace BenchBackend.Data
 {
     public class FlorasContext : DbContext
     {
+        public FlorasContext()
+        {
+        }
+
+        public FlorasContext(DbContextOptions options)
+            : base(options)
+        {
+        }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -32,11 +40,6 @@ namespace BenchBackend.Data
                 new ProductCategory { Id = 4, Category = "Hardware" }
             );
 
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=FlorasDB");
         }
     }
 }

@@ -10,11 +10,16 @@ namespace BenchBackend.Services
 {
     public class GetProductById : IGetProductById 
     {
+        private readonly FlorasContext _context;
+
+        public GetProductById(FlorasContext context)
+        {
+            _context = context;
+        }
+
         public async Task<ProductProjection> ExecuteAsync(int productId)
         {
-            using FlorasContext context = new();
-
-            var product = await context.Products
+            var product = await _context.Products
             .Include(p => p.Reviews)
             .Where(p => p.Id == productId)
             .Select(sel => new ProductProjection

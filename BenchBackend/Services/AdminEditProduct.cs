@@ -9,18 +9,22 @@ namespace BenchBackend.Services
 {
     public class AdminEditProduct : IAdminEditProduct
     {
+        private readonly FlorasContext _context;
+
+        public AdminEditProduct(FlorasContext context)
+        {
+            _context = context;
+        }
         public async Task<string> ExecuteAsync(PostEditProductParameters EditedProduct)
         {
-            using FlorasContext context = new FlorasContext();
-
-            var UpdatedProduct = context.Products.First(pr => pr.Id == EditedProduct.id);
+            var UpdatedProduct = _context.Products.First(pr => pr.Id == EditedProduct.id);
 
             UpdatedProduct.Name = EditedProduct.name;
             UpdatedProduct.Price = EditedProduct.price;
 
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-            var newProd = context.Products.First(pr => pr.Id == EditedProduct.id).ToString();
+            var newProd = _context.Products.First(pr => pr.Id == EditedProduct.id).ToString();
 
             return newProd;
         }
