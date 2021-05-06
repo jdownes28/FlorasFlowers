@@ -1,3 +1,4 @@
+using BenchBackend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,6 +16,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using BenchBackend.Data;
 
 namespace BenchBackend
 {
@@ -30,6 +33,14 @@ namespace BenchBackend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Dependency Injection
+            services.AddScoped<IGetOrders, GetOrders>();
+            services.AddScoped<IAdminEditProduct, AdminEditProduct>();
+            services.AddScoped<IGetReviews, GetReviews>();
+
+            // Db Context Dependency Injection
+            services.AddDbContext<FlorasContext>(options =>
+                options.UseSqlServer(Configuration["ConnectionStrings:LocalFlora"]));
 
             string domain = $"https://{Configuration["Auth0:Domain"]}/";
             services

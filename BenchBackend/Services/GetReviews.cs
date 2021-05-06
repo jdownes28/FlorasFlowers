@@ -10,11 +10,16 @@ namespace BenchBackend.Services
 {
     public class GetReviews : IGetReviews
     {
+        private readonly FlorasContext _context;
+
+        public GetReviews(FlorasContext context)
+        {
+            _context = context;
+        }
+
         public async Task<ICollection<ReviewsProjection>> ExecuteAsync(int id)
         {
-            using FlorasContext context = new();
-
-            var reviews = await context.Products
+            var reviews = await _context.Products
                 .Include(r => r.Reviews)
                 .Where(product => product.Id == id)
                 .Select(sel => new ReviewsProjection

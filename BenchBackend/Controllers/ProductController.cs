@@ -13,10 +13,12 @@ namespace BenchBackend.Controllers
     public class ProductController : ControllerBase
     {
         private readonly ILogger<ProductController> _logger;
+        private readonly IGetReviews _getReviews;
 
-        public ProductController(ILogger<ProductController> logger)
+        public ProductController(ILogger<ProductController> logger, IGetReviews getReviews)
         {
             _logger = logger;
+            _getReviews = getReviews;
         }
 
         /// <summary>
@@ -69,11 +71,9 @@ namespace BenchBackend.Controllers
         [HttpGet("/products/{id}/reviews")]
         public async Task<IActionResult> GetProductReviewsAsync(int id)
         {
-            GetReviews getReviews = new();
-
             try
             {
-                var result = await getReviews.ExecuteAsync(id);
+                var result = await _getReviews.ExecuteAsync(id);
                 if(result.Count < 1)
                 {
                     return StatusCode(404, $"The product of id {id} does not exist");

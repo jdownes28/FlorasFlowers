@@ -10,10 +10,17 @@ namespace BenchBackend.Services
 {
     public class GetOrders : IGetOrders
     {
+
+        private readonly FlorasContext _context;
+
+        public GetOrders(FlorasContext context)
+        {
+            _context = context;
+        }
+
         public async Task<List<OrderProjection>> GetCurrentOrdersAsync()
         {
-            using FlorasContext context = new();
-            var CurrentOrders = await context.Orders
+            var CurrentOrders = await _context.Orders
                 .Include(oc => oc.OrderContents)
                 .Where(order => order.OrderFulfilled == null)
                 .Select(select => new OrderProjection
