@@ -23,6 +23,8 @@ namespace BenchBackend.Models
         [DataMember]
         public ProductType ProductType { get; set; }
 
+        public ICollection<ProductCategory> ProductCategory { get; set; }
+
         public ICollection<Review> Reviews { get; set; }
     }
 }

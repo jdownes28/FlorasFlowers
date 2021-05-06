@@ -14,6 +14,7 @@ namespace BenchBackend.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<OrderContents> OrderContents { get; set; }
         public DbSet<Review> Reviews { get; set; }
 
@@ -24,13 +25,13 @@ namespace BenchBackend.Data
                 new ProductType { Id = 2, Type = "Subscription" }
             );
 
-            /*
-            modelBuilder.Entity<Product>().HasData(
-                new Product { Id = 1, Name = "Small Roses Bunch", Price = 4.99, ProductType = 1 },
-                new Product { Id = 2, Name = "Lilys Bunch", Price = 8.99, ProductType = 1 },
-                new Product { Id = 1, Name = "Large Lilys Bunch", Price = 14.99, ProductType = 1 }
+            modelBuilder.Entity<ProductCategory>().HasData(
+                new ProductCategory { Id = 1, Category = "Bouqet"},
+                new ProductCategory { Id = 2, Category = "Dried" },
+                new ProductCategory { Id = 3, Category = "Flower Care" },
+                new ProductCategory { Id = 4, Category = "Hardware" }
             );
-            */
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
