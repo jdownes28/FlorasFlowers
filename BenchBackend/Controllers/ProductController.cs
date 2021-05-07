@@ -41,10 +41,19 @@ namespace BenchBackend.Controllers
         /// </summary>
         /// <returns>List of all products</returns>
         [HttpGet("/products")]
-        public async Task<List<ProductProjection>> GetProductsAsync()
+        public async Task<IActionResult> GetProductsAsync()
         {
-            var products = await getAllBuyProducts.ExecuteAsync();
-            return products;
+            try
+            {
+                List<ProductProjection> products = await getAllBuyProducts.ExecuteAsync();
+                return StatusCode(200, products);
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e.StackTrace);
+                return StatusCode(500, e.Message);
+            }
+            
         }
 
         /// <summary>
@@ -57,7 +66,7 @@ namespace BenchBackend.Controllers
         {
             try
             {
-                var product = await getProductById.ExecuteAsync(id);
+                ProductProjection product = await getProductById.ExecuteAsync(id);
 
                 if(product != null)
                 {
@@ -85,7 +94,7 @@ namespace BenchBackend.Controllers
         {
             try
             {
-                var result = await getReviews.ExecuteAsync(id);
+                ICollection<ReviewsProjection> result = await getReviews.ExecuteAsync(id);
                 if(result.Count < 1)
                 {
                     return StatusCode(404, $"The product of id {id} does not exist");
@@ -107,10 +116,19 @@ namespace BenchBackend.Controllers
         /// <param name="MaxPrice">Maximum price as defined by user</param>
         /// <returns>List of products with attributes in ProductProjection Model</returns>
         [HttpGet("/products/filter")]
-        public async Task<List<ProductProjection>> GetFilteredProductsAsync([FromQuery] int MinPrice, [FromQuery] int MaxPrice)
+        public async Task<IActionResult> GetFilteredProductsAsync([FromQuery] int MinPrice, [FromQuery] int MaxPrice)
         {
-            var products = await getFilteredProducts.ExecuteAsync(MinPrice, MaxPrice);
-            return products;
+            try
+            {
+                List<ProductProjection> products = await getFilteredProducts.ExecuteAsync(MinPrice, MaxPrice);
+                return StatusCode(200, products);
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e.StackTrace);
+                return StatusCode(500, e.Message);
+            }
+            
         }
 
         /// <summary>
@@ -119,11 +137,19 @@ namespace BenchBackend.Controllers
         /// <returns>List of Products where type is subscription</returns>
         [HttpGet("/subscriptions")]
         [Authorize]
-        public async Task<List<Product>> GetSubscriptionsAsync()
+        public async Task<IActionResult> GetSubscriptionsAsync()
         {
-            var subscriptions = await getSubscriptions.ExecuteAsync();
-
-            return subscriptions;
+            try
+            {
+                List<Product> subscriptions = await getSubscriptions.ExecuteAsync();
+                return StatusCode(200, subscriptions);
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e.StackTrace);
+                return StatusCode(500, e.Message);
+            }
+            
         }
     }
 }

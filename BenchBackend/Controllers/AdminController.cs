@@ -30,10 +30,19 @@ namespace BenchBackend.Controllers
         /// <param name="EditedProduct">Class of params to identify product to edit</param>
         /// <returns>Changes to product</returns>
         [HttpPost("/admin/product/edit")]
-        public async Task<string> PostEditedProduct(PostEditProductParameters EditedProduct)
+        public async Task<IActionResult> PostEditedProduct(PostEditProductParameters EditedProduct)
         {
-            var newProd = await _adminEditProduct.ExecuteAsync(EditedProduct);
-            return newProd;
+            try
+            {
+                string newProd = await _adminEditProduct.ExecuteAsync(EditedProduct);
+                return StatusCode(200, newProd);
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e.StackTrace);
+                return StatusCode(500, e.Message);
+            }
+            
         }
 
         /// <summary>
@@ -41,10 +50,18 @@ namespace BenchBackend.Controllers
         /// </summary>
         /// <returns>List of all unfufiled orders</returns>
         [HttpGet("/admin/orders/current")]
-        public async Task<List<OrderProjection>> GetAllCurrentOrders()
+        public async Task<IActionResult> GetAllCurrentOrders()
         {
-            var CurrentOrders = await _getOrders.GetCurrentOrdersAsync();
-            return CurrentOrders;
+            try
+            {
+                List<OrderProjection> CurrentOrders = await _getOrders.GetCurrentOrdersAsync();
+                return StatusCode(200, CurrentOrders);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.StackTrace);
+                return StatusCode(500, e.Message);
+            }
         }
 
         [HttpGet("admin/orders/xml")]
@@ -52,7 +69,7 @@ namespace BenchBackend.Controllers
         {
             try
             {
-                var allOrders = await _getOrders.GetAllOrdersAsync();
+                List<Order> allOrders = await _getOrders.GetAllOrdersAsync();
                 byte[] xml = _serializer.Serialize(allOrders);
                 string filename = $"Orders_{DateTime.Now}.xml";
 
@@ -60,7 +77,7 @@ namespace BenchBackend.Controllers
             }
             catch(Exception e)
             {
-                Console.WriteLine(e);
+                _logger.LogError(e.StackTrace);
                 return StatusCode(500, e.Message);
             }
         }
