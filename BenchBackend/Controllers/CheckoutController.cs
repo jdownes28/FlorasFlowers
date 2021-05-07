@@ -24,7 +24,7 @@ namespace BenchBackend.Controllers
         {
             try
             {
-                var OrderStatus = await _placeOrder.ExecuteAsync(placeOrderParameters);
+                Order OrderStatus = await _placeOrder.ExecuteAsync(placeOrderParameters);
                 return StatusCode(200, OrderStatus);
             }
             catch(Exception e)

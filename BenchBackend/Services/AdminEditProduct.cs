@@ -17,14 +17,14 @@ namespace BenchBackend.Services
         }
         public async Task<string> ExecuteAsync(PostEditProductParameters EditedProduct)
         {
-            var UpdatedProduct = _context.Products.First(pr => pr.Id == EditedProduct.id);
+            Product UpdatedProduct = _context.Products.First(pr => pr.Id == EditedProduct.id);
 
             UpdatedProduct.Name = EditedProduct.name;
             UpdatedProduct.Price = EditedProduct.price;
 
             await _context.SaveChangesAsync();
 
-            var newProd = _context.Products.First(pr => pr.Id == EditedProduct.id).ToString();
+            string newProd = _context.Products.First(pr => pr.Id == EditedProduct.id).ToString();
 
             return newProd;
         }

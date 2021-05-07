@@ -34,7 +34,7 @@ namespace BenchBackend.Controllers
         {
             try
             {
-                var newProd = await _adminEditProduct.ExecuteAsync(EditedProduct);
+                string newProd = await _adminEditProduct.ExecuteAsync(EditedProduct);
                 return StatusCode(200, newProd);
             }
             catch(Exception e)
@@ -54,7 +54,7 @@ namespace BenchBackend.Controllers
         {
             try
             {
-                var CurrentOrders = await _getOrders.GetCurrentOrdersAsync();
+                List<OrderProjection> CurrentOrders = await _getOrders.GetCurrentOrdersAsync();
                 return StatusCode(200, CurrentOrders);
             }
             catch (Exception e)
@@ -69,7 +69,7 @@ namespace BenchBackend.Controllers
         {
             try
             {
-                var allOrders = await _getOrders.GetAllOrdersAsync();
+                List<Order> allOrders = await _getOrders.GetAllOrdersAsync();
                 byte[] xml = _serializer.Serialize(allOrders);
                 string filename = $"Orders_{DateTime.Now}.xml";
 

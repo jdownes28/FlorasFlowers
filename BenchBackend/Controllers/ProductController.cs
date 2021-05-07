@@ -45,7 +45,7 @@ namespace BenchBackend.Controllers
         {
             try
             {
-                var products = await getAllBuyProducts.ExecuteAsync();
+                List<ProductProjection> products = await getAllBuyProducts.ExecuteAsync();
                 return StatusCode(200, products);
             }
             catch(Exception e)
@@ -66,7 +66,7 @@ namespace BenchBackend.Controllers
         {
             try
             {
-                var product = await getProductById.ExecuteAsync(id);
+                ProductProjection product = await getProductById.ExecuteAsync(id);
 
                 if(product != null)
                 {
@@ -94,7 +94,7 @@ namespace BenchBackend.Controllers
         {
             try
             {
-                var result = await getReviews.ExecuteAsync(id);
+                ICollection<ReviewsProjection> result = await getReviews.ExecuteAsync(id);
                 if(result.Count < 1)
                 {
                     return StatusCode(404, $"The product of id {id} does not exist");
@@ -120,7 +120,7 @@ namespace BenchBackend.Controllers
         {
             try
             {
-                var products = await getFilteredProducts.ExecuteAsync(MinPrice, MaxPrice);
+                List<ProductProjection> products = await getFilteredProducts.ExecuteAsync(MinPrice, MaxPrice);
                 return StatusCode(200, products);
             }
             catch(Exception e)
@@ -141,7 +141,7 @@ namespace BenchBackend.Controllers
         {
             try
             {
-                var subscriptions = await getSubscriptions.ExecuteAsync();
+                List<Product> subscriptions = await getSubscriptions.ExecuteAsync();
                 return StatusCode(200, subscriptions);
             }
             catch(Exception e)
