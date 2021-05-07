@@ -11,6 +11,12 @@ namespace BenchBackend.Tests
 {
     public class PlaceOrderTests
     {
+        private readonly IPlaceOrder _placeOrder;
+
+        public PlaceOrderTests(IPlaceOrder placeOrder)
+        {
+            _placeOrder = placeOrder;
+        }
 
         [Fact]
         public void CalculateTotalPriceTest()
@@ -28,8 +34,7 @@ namespace BenchBackend.Tests
             orderContents.Add(contents);
 
             // Act
-            PlaceOrder placeOrder = new PlaceOrder();
-            double result = placeOrder.CalculateTotalPrice(orderContents);
+            double result = _placeOrder.CalculateTotalPrice(orderContents);
 
             // Assert
             Assert.Equal(31.50, result);
