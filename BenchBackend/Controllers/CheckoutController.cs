@@ -3,6 +3,7 @@ using BenchBackend.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace BenchBackend.Controllers
@@ -19,18 +20,19 @@ namespace BenchBackend.Controllers
             _placeOrder = placeOrder;
         }
 
+
         [HttpPost("/order")]
         public async Task<IActionResult> PlaceOrderAsync(PlaceOrderParameters placeOrderParameters)
         {
             try
             {
                 Order OrderStatus = await _placeOrder.ExecuteAsync(placeOrderParameters);
-                return StatusCode(200, OrderStatus);
+                return StatusCode((int)HttpStatusCode.OK, OrderStatus);
             }
             catch(Exception e)
             {
                 _logger.LogError(e.StackTrace);
-                return StatusCode(500, e.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
             }
             
             

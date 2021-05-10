@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using BenchBackend.Services;
 using Microsoft.Extensions.Logging;
+using System.Net;
 
 namespace BenchBackend.Controllers
 {
@@ -35,12 +36,12 @@ namespace BenchBackend.Controllers
             try
             {
                 string newProd = await _adminEditProduct.ExecuteAsync(EditedProduct);
-                return StatusCode(200, newProd);
+                return StatusCode((int)HttpStatusCode.OK, newProd);
             }
             catch(Exception e)
             {
                 _logger.LogError(e.StackTrace);
-                return StatusCode(500, e.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
             }
             
         }
@@ -55,12 +56,12 @@ namespace BenchBackend.Controllers
             try
             {
                 List<OrderProjection> CurrentOrders = await _getOrders.GetCurrentOrdersAsync();
-                return StatusCode(200, CurrentOrders);
+                return StatusCode((int)HttpStatusCode.OK, CurrentOrders);
             }
             catch (Exception e)
             {
                 _logger.LogError(e.StackTrace);
-                return StatusCode(500, e.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
             }
         }
 
@@ -78,7 +79,7 @@ namespace BenchBackend.Controllers
             catch(Exception e)
             {
                 _logger.LogError(e.StackTrace);
-                return StatusCode(500, e.Message);
+                return StatusCode((int) HttpStatusCode.InternalServerError, e.Message);
             }
         }
     }

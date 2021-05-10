@@ -12,6 +12,8 @@ namespace BenchBackend.Services
     {
         private readonly FlorasContext _context;
 
+        private const int ProductTypeSubscriptionId = 2;
+
         public GetSubscriptions(FlorasContext context)
         {
             _context = context;
@@ -19,7 +21,7 @@ namespace BenchBackend.Services
 
         public async Task<List<Product>> ExecuteAsync()
         {
-            var product = await _context.Products.Where(p => p.ProductType.Id == 2).ToListAsync();
+            var product = await _context.Products.Where(p => p.ProductType.Id == ProductTypeSubscriptionId).ToListAsync();
             return product;
         }
     }

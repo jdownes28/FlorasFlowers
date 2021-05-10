@@ -12,6 +12,8 @@ namespace BenchBackend.Services
     {
         private readonly FlorasContext _context;
 
+        private const int ProductTypeBuyId = 1;
+
         public GetAllBuyProducts(FlorasContext context)
         {
             _context = context;
@@ -22,7 +24,7 @@ namespace BenchBackend.Services
 
             var products = await _context.Products
                 .Include(r => r.Reviews)
-                .Where(prod => prod.ProductType.Id == 1)
+                .Where(prod => prod.ProductType.Id == ProductTypeBuyId)
                 .Select(sel => new ProductProjection
                 {
                     Id = sel.Id,
