@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace BenchBackend.Controllers
@@ -46,12 +47,12 @@ namespace BenchBackend.Controllers
             try
             {
                 List<ProductProjection> products = await getAllBuyProducts.ExecuteAsync();
-                return StatusCode(200, products);
+                return StatusCode((int)HttpStatusCode.OK, products);
             }
             catch(Exception e)
             {
                 _logger.LogError(e.StackTrace);
-                return StatusCode(500, e.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
             }
             
         }
@@ -70,17 +71,17 @@ namespace BenchBackend.Controllers
 
                 if(product != null)
                 {
-                    return StatusCode(200, product);
+                    return StatusCode((int)HttpStatusCode.OK, product);
                 }
                 else
                 {
-                    return StatusCode(404, $"Product with Id {id} does not exist");
+                    return StatusCode((int)HttpStatusCode.NotFound, $"Product with Id {id} does not exist");
                 }
             }
             catch(Exception e)
             {
                 _logger.LogError(e.StackTrace);
-                return StatusCode(500, e.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
             }
         }
 
@@ -99,12 +100,12 @@ namespace BenchBackend.Controllers
                 {
                     return StatusCode(404, $"The product of id {id} does not exist");
                 }
-                return StatusCode(200, result);
+                return StatusCode((int)HttpStatusCode.OK, result);
             }
             catch(Exception e)
             {
                 _logger.LogError(e.StackTrace);
-                return StatusCode(500, e.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
             }
         }
 
@@ -121,12 +122,12 @@ namespace BenchBackend.Controllers
             try
             {
                 List<ProductProjection> products = await getFilteredProducts.ExecuteAsync(MinPrice, MaxPrice);
-                return StatusCode(200, products);
+                return StatusCode((int)HttpStatusCode.OK, products);
             }
             catch(Exception e)
             {
                 _logger.LogError(e.StackTrace);
-                return StatusCode(500, e.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
             }
             
         }
@@ -142,12 +143,12 @@ namespace BenchBackend.Controllers
             try
             {
                 List<Product> subscriptions = await getSubscriptions.ExecuteAsync();
-                return StatusCode(200, subscriptions);
+                return StatusCode((int)HttpStatusCode.OK, subscriptions);
             }
             catch(Exception e)
             {
                 _logger.LogError(e.StackTrace);
-                return StatusCode(500, e.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
             }
             
         }
