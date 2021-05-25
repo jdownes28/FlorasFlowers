@@ -21,7 +21,6 @@ namespace BenchBackend.Services
 
         public async Task<List<ProductProjection>> ExecuteAsync()
         {
-
             var products = await _context.Products
                 .Include(r => r.Reviews)
                 .Where(prod => prod.ProductType.Id == ProductTypeBuyId)

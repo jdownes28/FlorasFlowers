@@ -34,7 +34,7 @@ namespace BenchBackend
         public void ConfigureServices(IServiceCollection services)
         {
             // Dependency Injection
-            services.AddScoped<IAdminEditProduct, AdminEditProduct>();
+            services.AddScoped<IAdminProductService, AdminProductService>();
             services.AddScoped<IDataSerializer, DataSerializer>();
             services.AddScoped<IGetAllBuyProducts, GetAllBuyProducts>();
             services.AddScoped<IGetFilteredProducts, GetFilteredProducts>();

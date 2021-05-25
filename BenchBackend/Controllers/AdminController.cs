@@ -14,15 +14,30 @@ namespace BenchBackend.Controllers
     {
         private readonly ILogger<AdminController> _logger;
         private readonly IGetOrders _getOrders;
-        private readonly IAdminEditProduct _adminEditProduct;
+        private readonly IAdminProductService _adminProductService;
         private readonly IDataSerializer _serializer;
 
-        public AdminController(ILogger<AdminController> logger, IDataSerializer serializer, IGetOrders getOrders, IAdminEditProduct adminEditProduct)
+        public AdminController(ILogger<AdminController> logger, IDataSerializer serializer, IGetOrders getOrders, IAdminProductService adminProductService)
         {
             _logger = logger;
             _serializer = serializer;
             _getOrders = getOrders;
-            _adminEditProduct = adminEditProduct;
+            _adminProductService = adminProductService;
+        }
+
+        [HttpPost("/admin/product/add")]
+        public async Task<IActionResult> AddNewProduct(Product product)
+        {
+            try
+            {
+                var result = _adminProductService.AddProductAsync(product);
+                return StatusCode((int)HttpStatusCode.OK);
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e.StackTrace);
+                return null;
+            }
         }
 
         /// <summary>
@@ -35,7 +50,7 @@ namespace BenchBackend.Controllers
         {
             try
             {
-                string newProd = await _adminEditProduct.ExecuteAsync(EditedProduct);
+                string newProd = await _adminProductService.EditProductAsync(EditedProduct);
                 return StatusCode((int)HttpStatusCode.OK, newProd);
             }
             catch(Exception e)
@@ -80,6 +95,26 @@ namespace BenchBackend.Controllers
             {
                 _logger.LogError(e.StackTrace);
                 return StatusCode((int) HttpStatusCode.InternalServerError, e.Message);
+            }
+        }
+
+        [HttpGet("admin/order/{id}")]
+        public async Task<IActionResult> GetOrderById(int id)
+        {
+            try
+            {
+                OrderProjection order = await _getOrders.GetOrderById(id);
+                if(order == null)
+                {
+                    return StatusCode((int)HttpStatusCode.NotFound);
+                }
+
+                return Ok(order);
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e.StackTrace);
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
             }
         }
     }

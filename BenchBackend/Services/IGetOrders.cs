@@ -8,5 +8,6 @@ namespace BenchBackend.Services
     {
         Task<List<OrderProjection>> GetCurrentOrdersAsync();
         Task<List<Order>> GetAllOrdersAsync();
+        Task<OrderProjection> GetOrderById(int id);
     }
 }

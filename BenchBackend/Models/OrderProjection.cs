@@ -7,10 +7,13 @@ namespace BenchBackend.Models
 {
     public class OrderProjection
     {
-        public DateTime OrderPlaced { get; set; }
-        public ICollection<OrderContents> ProductsOrdered { get; set; }
-        public string Address { get; set; }
+        public int Id { get; set; }
+        public string OrderPlaced { get; set; }
         public string Name { get; set; }
-        public double TotalPrice { get; set; }
+        public string Email { get; set; }
+        public string Address { get; set; }
+        public double TotalOrderPrice { get; set; }
+        public ICollection<OrderContents> ProductsOrdered { get; set; }
+
     }
 }

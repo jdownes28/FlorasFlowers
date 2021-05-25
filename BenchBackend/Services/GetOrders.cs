@@ -20,16 +20,20 @@ namespace BenchBackend.Services
 
         public async Task<List<OrderProjection>> GetCurrentOrdersAsync()
         {
+            // Use Projection to avoid sending password
             var CurrentOrders = await _context.Orders
                 .Include(oc => oc.OrderContents)
+                .ThenInclude(pr => pr.Product)
                 .Where(order => order.OrderFulfilled == null)
                 .Select(select => new OrderProjection
                 {
-                    OrderPlaced = select.OrderPlaced,
+                    Id = select.Id,
+                    OrderPlaced = select.OrderPlaced.ToString("dd/MM/yyyy HH:mm:ss"),
                     Address = select.DeliveryAddress,
                     Name = $"{select.Customer.FirstName} {select.Customer.LastName}",
+                    Email = select.Customer.Email,
+                    TotalOrderPrice = select.TotalOrderPrice,
                     ProductsOrdered = select.OrderContents,
-                    TotalPrice = select.TotalOrderPrice,
                 }).ToListAsync();
 
             return CurrentOrders;
@@ -43,6 +47,30 @@ namespace BenchBackend.Services
                 .ToListAsync();
 
             return allOrders;
+        }
+
+        public async Task<OrderProjection> GetOrderById(int id)
+        {
+            OrderProjection order = await _context.Orders
+                .Include(oc => oc.OrderContents)
+                .ThenInclude(pr => pr.Product)
+                .Include(cus => cus.Customer)
+                .Where(o => o.Id == id)
+                .Select(select => new OrderProjection
+                {
+                    Id = select.Id,
+                    OrderPlaced = select.OrderPlaced.ToShortDateString(),
+                    Name = $"{select.Customer.FirstName} {select.Customer.LastName}",
+                    Email = select.Customer.Email,
+                    Address = select.DeliveryAddress,
+                    TotalOrderPrice = select.TotalOrderPrice,
+                    ProductsOrdered = select.OrderContents
+                })
+                .FirstOrDefaultAsync();
+
+            OrderProjection result = order ?? null;
+
+            return result;
         }
 
     }
